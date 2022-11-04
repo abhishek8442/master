@@ -1,4 +1,4 @@
-package com.apply.india;
+package com.codeplanet.Application3;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,133 +14,296 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 public class TestController {
- 
-
-
-
-
-
-    @PostMapping("/notice")
-    public Map homes(HttpServletRequest req) throws ClassNotFoundException, SQLException {
-    String n=req.getParameter("notice");
-	Class.forName("com.mysql.jdbc.Driver");
-	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root","abhishek007");
-	String query = "insert into notice(rel_time,notice) values(CURDATE(),?)";
-	PreparedStatement stmt1=con.prepareStatement(query);
+	@Autowired
+	TestService testService;
 	
-	stmt1.setString(1,n);
-	int i=stmt1.executeUpdate();
-	HashMap map=new HashMap();
-	if(i>=1)
-	{
-		map.put("msg","Notice added");
-		return map;
-	}
-	return map;
-    }
-    
-    
-    
-    
-    @GetMapping("/delete")
-    public Map home(HttpServletRequest req) throws ClassNotFoundException, SQLException {
-    String date=req.getParameter("rel_time");
-	Class.forName("com.mysql.jdbc.Driver");
-	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root","abhishek007");
-	String query = "delete from notice where rel_time=?";
-	PreparedStatement stmt1=con.prepareStatement(query);
-
-	stmt1.setString(1,date);
-	int i=stmt1.executeUpdate();
-	HashMap map=new HashMap();
-	if(i>=1)
-	{
-		map.put("msg","Notice deleted");
-		return map;
-	}
-    return map;
-    }
+// //update employe id=====>
 	
 	
-	
-	@GetMapping("/get_notice")
-	public List home1(HttpServletRequest req) throws ClassNotFoundException, SQLException {
+	@PutMapping("/admin/update")
+	public Map updateEmployee(HttpServletRequest req) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root","abhishek007");
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root","admin1");
+		String employee_id = req.getParameter("employee_id");
+		String name = req.getParameter("name");
+		String designation = req.getParameter("designation");
+		String dob = req.getParameter("dob");
+		String salary = req.getParameter("salary");
+		String Email = req.getParameter("Email");
+		String joining_date = req.getParameter("joining_date");
+		String contact_no = req.getParameter("contact_no");
+		String address = req.getParameter("address");
+		String gender = req.getParameter("gender");
+		String attendance = req.getParameter("attendance");
+		String leave_count = req.getParameter("leave_count");
 		Statement stmt=con.createStatement();
-		String query="select * from notice";
-		ResultSet rs=stmt.executeQuery(query);
-		ArrayList list=new ArrayList();
-		while(rs.next())
+		String query ="Select * from employee_table where employee_id='"+employee_id+"'";
+		ResultSet emp =stmt.executeQuery(query);
+		HashMap<String,String> map1=new HashMap<String,String>();
+		while(emp.next()) {
+			if((emp.getString("name").equals(name))==false) 
+			{
+			  String query1= "update employee_table set name=? where employee_id='"+employee_id+"'";
+			  PreparedStatement pstmt=con.prepareStatement(query1);
+			  pstmt.setString(1,name);
+			  int i =pstmt.executeUpdate();
+			  HashMap map=new HashMap();
+			  if(i>=1) {
+				  map.put("message", "name updated");
+				  return map;
+			  }
+			}
+		else if((emp.getString("designation").equals(designation))==false) 
 		{
-			HashMap map=new LinkedHashMap();
-			map.put("Date",rs.getDate("rel_time"));
-			map.put("Notice",rs.getString("notice"));
-			list.add(map);
+			  String query1= "update employee_table set designation=? where employee_id='"+employee_id+"'";
+			  PreparedStatement pstmt=con.prepareStatement(query1);
+			  pstmt.setString(1,designation);
+			  int i =pstmt.executeUpdate();
+			  HashMap map=new HashMap();
+			  if(i>=1) 
+			  {
+				  map.put("message", "designation updated");
+				  return map;
+			  }
+			}
+		else if((emp.getString("dob").equals(dob))==false) 
+		{
+			  String query1= "update employee_table set dob=? where employee_id='"+employee_id+"'";
+			  PreparedStatement pstmt=con.prepareStatement(query1);
+			  pstmt.setString(1,dob);
+			  int i =pstmt.executeUpdate();
+			  HashMap map=new HashMap();
+			  if(i>=1) 
+			  {
+				  map.put("message", "dob updated");
+				  return map;
+			  }
+			}
+		else if((emp.getString("salary").equals(salary))==false) 
+		{
+			  String query1= "update employee_table set salary=? where employee_id='"+employee_id+"'";
+			  PreparedStatement pstmt=con.prepareStatement(query1);
+			  pstmt.setString(1,salary);
+			  int i =pstmt.executeUpdate();
+			  HashMap map=new HashMap();
+			  if(i>=1) 
+			  {
+				  map.put("message", "salary updated");
+				  return map;
+			  }
+			}
+		else if((emp.getString("Email").equals(Email))==false) 
+		{
+			  String query1= "update employee_table set Email=? where employee_id='"+employee_id+"'";
+			  PreparedStatement pstmt=con.prepareStatement(query1);
+			  pstmt.setString(1,Email);
+			  int i =pstmt.executeUpdate();
+			  HashMap map=new HashMap();
+			  if(i>=1) 
+			  {
+				  map.put("message", "Email updated");
+				  return map;
+			  }
+			}
+		else if((emp.getString("joining_date").equals(joining_date))==false) 
+		{
+			  String query1= "update employee_table set joining_date=? where employee_id='"+employee_id+"'";
+			  PreparedStatement pstmt=con.prepareStatement(query1);
+			  pstmt.setString(1,joining_date);
+			  int i =pstmt.executeUpdate();
+			  HashMap map=new HashMap();
+			  if(i>=1) 
+			  {
+				  map.put("message", "joining_date updated");
+				  return map;
+			  }
+			}
+		else if((emp.getString("contact_no").equals(contact_no))==false) 
+		{
+			  String query1= "update employee_table set contact_no=? where employee_id='"+employee_id+"'";
+			  PreparedStatement pstmt=con.prepareStatement(query1);
+			  pstmt.setString(1,contact_no);
+			  int i =pstmt.executeUpdate();
+			  HashMap map=new HashMap();
+			  if(i>=1) 
+			  {
+				  map.put("message", "contact_no updated");
+				  return map;
+			  }
+			}
+		else if((emp.getString("address").equals(address))==false) 
+		{
+			  String query1= "update employee_table set address=? where employee_id='"+employee_id+"'";
+			  PreparedStatement pstmt=con.prepareStatement(query1);
+			  pstmt.setString(1,address);
+			  int i =pstmt.executeUpdate();
+			  HashMap map=new HashMap();
+			  if(i>=1) 
+			  {
+				  map.put("massage", "address updated");
+				  return map;
+			  }
+			}
+		else if((emp.getString("gender").equals(gender))==false) 
+		{
+			  String query1= "update employee_table set gender=? where employee_id='"+employee_id+"'";
+			  PreparedStatement pstmt=con.prepareStatement(query1);
+			  pstmt.setString(1,gender);
+			  int i =pstmt.executeUpdate();
+			  HashMap map=new HashMap();
+			  if(i>=1) 
+			  {
+				  map.put("massage", "gender updated");
+				  return map;
+			  }
+			}
+		else if((emp.getString("attendance").equals(attendance))==false) 
+		{
+			  String query1= "update employee_table set attendance=? where employee_id='"+employee_id+"'";
+			  PreparedStatement pstmt=con.prepareStatement(query1);
+			  pstmt.setString(1,attendance);
+			  int i =pstmt.executeUpdate();
+			  HashMap map=new HashMap();
+			  if(i>=1) 
+			  {
+				  map.put("massage", "attendance updated");
+				  return map;
+			  }
+			}
+		else if((emp.getString("leave_count").equals(leave_count))==false) 
+		{
+			  String query1= "update employee_table set leave_count=? where employee_id='"+employee_id+"'";
+			  PreparedStatement pstmt=con.prepareStatement(query1);
+			  pstmt.setString(1,leave_count);
+			  int i =pstmt.executeUpdate();
+			  HashMap map=new HashMap();
+			  if(i>=1) 
+			  {
+				  map.put("massage", "leave_count updated");
+				  return map;
+			  }
+			}
+		else
+	    {
+			map1.put("massage", "your data is already correct!!");
+			return map1;
+		}
+		return map1;
+		}
+		return map1;
+	}
+	
+	
+	
+//	// delete employee data====>
+	
+	@DeleteMapping("/admin/delete")
+		public Map deleteEmployee(HttpServletRequest req) throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root","admin1");
+		String employee_id = req.getParameter("employee_id");
+		String query= "delete from employee_table where employee_id=?";
+		PreparedStatement stmt=con.prepareStatement(query);
+		stmt.setString(1,employee_id);
+		int i=stmt.executeUpdate();
+		HashMap<String,String> map2=new HashMap<String,String>();
+		if(i>=1)
+		{
+			map2.put("message","Your data deleted");
+			return map2;
+		}
+		return map2;
+	}
+	
+
+////	request to edit data=======>
+	
+	@PutMapping("employee/requestToUpdate")
+	public Map employee(HttpServletRequest req) throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root","admin1");
+		String employee_id = req.getParameter("employee_id");
+		String requestToUpdate = req.getParameter("requestToUpdate");
+		Statement stmt=con.createStatement();
+		String query ="Select * from employee_table where employee_id='"+employee_id+"'";
+		ResultSet emp =stmt.executeQuery(query);
+		if(emp.next()) 
+			{
+				String query1="update employee_table set requestToUpdate=? where employee_id='"+employee_id+"'";
+				  PreparedStatement pstmt=con.prepareStatement(query1);
+				  pstmt.setString(1,requestToUpdate);
+				  int i =pstmt.executeUpdate();
+				  HashMap map=new HashMap();
+				  if(i>=1)
+				  {
+					  map.put("message","Your request send successfully");
+					  return map; 
+				  }
+			}
+			return null;
+	}
+	
+	
+	
+	
+//	employee profile =======>
+	
+	
+	@GetMapping("/profile")
+	public List profileEmployee(HttpServletRequest req) throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root","admin1");
+		String employee_id = req.getParameter("employee_id");
+		String password = req.getParameter("password");
+		Statement stmt=con.createStatement();
+		String query = "Select * from employee_table where employee_id='"+employee_id+"' OR password='"+password+"'";;
+		ResultSet emp =stmt.executeQuery(query);
+		LinkedHashMap map1=new LinkedHashMap();
+		ArrayList list=new ArrayList();
+		while(emp.next()) {
+			if((emp.getString("employee_id").equals(employee_id)) && (emp.getString("password").equals(password)) ){
+			{
+				map1.put("employee_id", emp.getString("employee_id"));
+				map1.put("name", emp.getString("name"));
+				map1.put("designation", emp.getString("designation"));
+				map1.put("dob", emp.getString("dob"));
+				map1.put("salary", emp.getString("salary"));
+				map1.put("Email", emp.getString("Email"));
+				map1.put("joining_date", emp.getString("joining_date"));
+				map1.put("contact_no", emp.getString("contact_no"));
+				map1.put("address", emp.getString("address"));
+				map1.put("gender", emp.getString("gender"));
+				map1.put("attendance", emp.getString("attendance"));
+				map1.put("leave_count", emp.getString("leave_count"));
+				list.add(map1);
+			  }
+			return list;
+			}
+		 else if((emp.getString("employee_id").equals(employee_id))==false)
+			{
+				map1.put("massage", "your employee_id is incoreact!!Try again!!");
+				list.add(map1);
+				return list;
+			}
+		else 
+			{
+				map1.put("massage", "your password is incoreact!!Try again!!");
+				list.add(map1);
+				return list;
+			}
 		}
 		return list;
-		
-	}
-	
-	
-	
-
-	
-	
-	
-	@PutMapping("/ChangePassword")
-	public Map password(HttpServletRequest req) throws ClassNotFoundException, SQLException
-	{
-		String Email=req.getParameter("Email");
-		String password=req.getParameter("password");
-		String NewPassword=req.getParameter("newpassword");
-		String ConfirmNewPassword=req.getParameter("confirmpassword");
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root","abhishek007");
-		Statement stmt=con.createStatement();
-		String query="select * from employee_table where Email='"+Email+"' or password='"+password+"'";
-		ResultSet rs=stmt.executeQuery(query);
-		HashMap map=new HashMap();
-		if(rs.next())
-		{
-			if(rs.getString("Email").equals(Email))
-			{
-				if(rs.getString("password").equals(password))
-				{
-					String query1="update employee_table set password = ? where Email='"+Email+"'";
-					PreparedStatement pstmt=con.prepareStatement(query1);
-					pstmt.setString(1, NewPassword);
-					if(NewPassword.equals(ConfirmNewPassword))
-					{
-						int i=pstmt.executeUpdate();
-						if(i>=1)
-							map.put("massage", "password change successfully");
-						return map;
-					}
-					else
-						map.put("massage", "newpassword and confirmpassword not same");
-					return map;
-				}
-				else
-					map.put("massage", "your password is wrong");
-				return map;
-			}
-			else
-				map.put("massage", "your email id is wrong");
-			return map;
-		}
-		return map;
 	}
 }
 	
-	
-
 
 
