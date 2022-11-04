@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class EmployeeListController {
 
-	@PostMapping("/employeelist")
+	@PostMapping("/admin/employeelist")
 	public HashMap<Integer,String> employeelist1() throws ClassNotFoundException, SQLException 
 {
 	Class.forName("com.mysql.cj.jdbc.Driver");
