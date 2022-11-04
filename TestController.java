@@ -227,7 +227,7 @@ public class TestController {
 
 ////	request to edit data=======>
 	
-	@PutMapping("employee/requestToUpdate")
+	@PutMapping("user/requestToUpdate")
 	public Map employee(HttpServletRequest req) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root","admin1");
@@ -258,7 +258,7 @@ public class TestController {
 //	employee profile =======>
 	
 	
-	@GetMapping("/profile")
+	@GetMapping("user/profile")
 	public List profileEmployee(HttpServletRequest req) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root","admin1");
