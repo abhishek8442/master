@@ -20,7 +20,7 @@ public class EmployeeListController {
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/erp","root","admin1");
 	Statement stmt=con.createStatement();
-	String fatchquery="select * from employee_table";
+	String fatchquery="select * from employee_table where status='non-active'";
 	ResultSet rs=stmt.executeQuery(fatchquery);
 	ArrayList l=new ArrayList();
 	while(rs.next()) {
