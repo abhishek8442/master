@@ -263,15 +263,12 @@ public class TestController {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root","admin1");
 		String employee_id = req.getParameter("employee_id");
-		String password = req.getParameter("password");
 		Statement stmt=con.createStatement();
-		String query = "Select * from employee_table where employee_id='"+employee_id+"' OR password='"+password+"'";;
+		String query = "Select * from employee_table where employee_id='"+employee_id+"'";
 		ResultSet emp =stmt.executeQuery(query);
 		LinkedHashMap map1=new LinkedHashMap();
 		ArrayList list=new ArrayList();
 		while(emp.next()) {
-			if((emp.getString("employee_id").equals(employee_id)) && (emp.getString("password").equals(password)) ){
-			{
 				map1.put("employee_id", emp.getString("employee_id"));
 				map1.put("name", emp.getString("name"));
 				map1.put("designation", emp.getString("designation"));
@@ -285,22 +282,8 @@ public class TestController {
 				map1.put("attendance", emp.getString("attendance"));
 				map1.put("leave_count", emp.getString("leave_count"));
 				list.add(map1);
-			  }
 			return list;
 			}
-		 else if((emp.getString("employee_id").equals(employee_id))==false)
-			{
-				map1.put("massage", "your employee_id is incoreact!!Try again!!");
-				list.add(map1);
-				return list;
-			}
-		else 
-			{
-				map1.put("massage", "your password is incoreact!!Try again!!");
-				list.add(map1);
-				return list;
-			}
-		}
 		return list;
 	}
 }
