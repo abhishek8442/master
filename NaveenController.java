@@ -22,7 +22,7 @@ public class NaveenController {
 
 
 
-@PostMapping("/complaintAdd")//user
+@PostMapping("/user/complaintAdd")//user
 public HashMap Complaint(HttpServletRequest req) throws ClassNotFoundException, SQLException
 {
 	String employee_id=req.getParameter("employee_id");
@@ -50,7 +50,7 @@ public HashMap Complaint(HttpServletRequest req) throws ClassNotFoundException, 
 
 
 
-@PostMapping("/complaintShow")//admin
+@PostMapping("/admin/complaintShow")//admin
 public HashMap ShowComplaint(HttpServletRequest req) throws ClassNotFoundException, SQLException
 {
 
@@ -58,7 +58,7 @@ public HashMap ShowComplaint(HttpServletRequest req) throws ClassNotFoundExcepti
 	Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root",
 			"admin1");
 	Statement stmt=con.createStatement();
-	String query="select * from erp.complain";
+	String query="select * from employeemanagement.complain";
 	ResultSet rs=stmt.executeQuery(query);
 	HashMap<String,Integer> map=new HashMap<String,Integer>();
 	 while(rs.next())
@@ -71,7 +71,7 @@ public HashMap ShowComplaint(HttpServletRequest req) throws ClassNotFoundExcepti
 
 
 
-@PostMapping("/complaintDelete")//user/admin
+@PostMapping("/admin/complaintDelete")//admin
 public String DeleteComplaint(HttpServletRequest req) throws ClassNotFoundException, SQLException
 {
 	String complain_id=req.getParameter("complain_id");
@@ -79,7 +79,7 @@ public String DeleteComplaint(HttpServletRequest req) throws ClassNotFoundExcept
 	Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root",
 			"admin1");
 	Statement stmt=con.createStatement();
-	String query="delete from erp.complain where complain_id='"+complain_id+"'";
+	String query="delete from employeemanagement.complain where complain_id='"+complain_id+"'";
 	int result=stmt.executeUpdate(query);
 	if(result<=1)
 		return "deleted successfully";
@@ -89,7 +89,7 @@ public String DeleteComplaint(HttpServletRequest req) throws ClassNotFoundExcept
 
 
 
-@PostMapping("/searchEmployee")//admin
+@PostMapping("/admin/searchEmployee")//admin
 public HashMap SearchEmployee(HttpServletRequest req) throws ClassNotFoundException, SQLException
 {
 	String employee_id=req.getParameter("employee_id");
@@ -97,7 +97,7 @@ public HashMap SearchEmployee(HttpServletRequest req) throws ClassNotFoundExcept
 	Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employeemanagement","root",
 			"admin1");
 	Statement stmt=con.createStatement();
-	String query="select * from erp.employee_table where employee_id='"+employee_id+"'";
+	String query="select * from employeemanagement.employee_table where employee_id='"+employee_id+"'";
 	ResultSet rs=stmt.executeQuery(query);
 	HashMap<String,Integer> map=new HashMap<String,Integer>();    
 	while (rs.next())
@@ -107,15 +107,15 @@ public HashMap SearchEmployee(HttpServletRequest req) throws ClassNotFoundExcept
 	return map;
 }
 
-@PostMapping("/searchByName")
+@PostMapping("/admin/searchByName")//admin
 public HashMap SearchByName(HttpServletRequest req) throws ClassNotFoundException, SQLException
 {
 	String name=req.getParameter("name");
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/erp","root",
-			"Admin1@06");
+			"admin1");
 	Statement stmt=con.createStatement();
-	String query="select * from erp.employee_table where employee_id='"+name+"'";
+	String query="select * from employeemanagement.employee_table where name='"+name+"'";
 	ResultSet rs=stmt.executeQuery(query);
 	HashMap<String,Integer> map=new HashMap<String,Integer>();    
 	while (rs.next())
